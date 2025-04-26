@@ -11,6 +11,7 @@ dependencies = [
     "black (>=25.1.0,<26.0.0)",
     "isort (>=6.0.1,<7.0.0)",
     "ruff (>=0.11.7,<0.12.0)",
+    "mypy (>=1.15.0,<2.0.0)",
 ]
 
 [tool.ruff]
@@ -93,3 +94,23 @@ exclude = '''
 
 [tool.isort]
 profile = "black"
+
+[tool.mypy]
+python_version = "3.13"
+plugins = []
+strict = true  # Включает все строгие правила типизации
+pretty = true  # Красивый вывод ошибок
+show_error_codes = true  # Показывать коды ошибок для поиска в документации
+warn_unused_configs = true  # Предупреждение об ошибках в конфиге
+warn_return_any = true  # Предупреждать о возвращении any
+warn_unused_ignores = true  # Предупреждать о ненужных ignore
+warn_redundant_casts = true  # Ловить ненужные приведения типов
+disallow_untyped_defs = true  # Требовать типы для всех функций
+disallow_incomplete_defs = true  # Даже частичные типы запрещены
+check_untyped_defs = true  # Проверять функции без аннотаций
+no_implicit_optional = true  # Явно указывать Optional
+disallow_any_generics = true  # Запретить использование обобщённых any
+disallow_subclassing_any = true  # Запретить наследование от any
+namespace_packages = true  # Для поддержки namespace пакетов
+follow_imports_for_stubs = true  # Для сторонних библиотек
+show_absolute_path = true  # Полные пути в ошибках
