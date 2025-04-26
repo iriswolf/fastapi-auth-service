@@ -71,6 +71,18 @@ force-single-line = false
 "tests/*" = ["D"]  # В тестах игнорируем докстринги
 "__init__.py" = ["F401"]  # Разрешаем неиспользуемые импорты в __init__.py
 
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.5"
+pytest-html = "^4.1.1"
+pytest-asyncio = "^0.26.0"
+pytest-lazy-fixture = "^0.6.3"
+pytest-mock = "^3.14.0"
+pytest-mypy = "^1.0.1"
+pytest-cov = "^6.1.1"
+httpx = "^0.28.1"
+anyio = "^4.9.0"
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -114,3 +126,14 @@ disallow_subclassing_any = true  # Запретить наследование �
 namespace_packages = true  # Для поддержки namespace пакетов
 follow_imports_for_stubs = true  # Для сторонних библиотек
 show_absolute_path = true  # Полные пути в ошибках
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+addopts = "-ra --strict-markers --tb=short"  # -ra: показать короткие отчеты об упавших тестах, strict-markers: запрещать незарегистрированные маркеры, tb=short: короткий traceback
+asyncio_mode = "auto"  # Позволяет pytest-asyncio автоматически работать с async def тестами
+filterwarnings = [
+    "error",  # Все предупреждения превращаем в ошибки
+    "ignore::pytest.PytestUnraisableExceptionWarning",  # Игнорируем варны от pytest на падении asyncio тасков
+]
