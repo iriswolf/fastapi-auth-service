@@ -9,9 +9,66 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "black (>=25.1.0,<26.0.0)",
-    "isort (>=6.0.1,<7.0.0)"
+    "isort (>=6.0.1,<7.0.0)",
+    "ruff (>=0.11.7,<0.12.0)",
 ]
 
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+src = ["app", "tests"]
+exclude = [
+    ".git",
+    "build",
+    "dist",
+    "__pycache__",
+    "*.pyc",
+    "venv",
+    ".venv",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle (ошибки форматирования)
+    "F",    # pyflakes (ошибки выполнения)
+    "W",    # pycodestyle (предупреждения)
+    "C90",  # mccabe (сложность кода)
+    "I",    # isort (порядок импортов)
+    "N",    # pep8-naming (правила именования)
+    "D",    # pydocstyle (докстринги)
+    "UP",   # pyupgrade (обновление кода под новую версию Python)
+    "YTT",  # проверка устаревших конструкций
+    "B",    # flake8-bugbear (потенциальные баги)
+    "A",    # flake8-builtins (конфликты с встроенными именами)
+    "C4",   # flake8-comprehensions (оптимизация генераторов)
+    "T20",  # flake8-print (запрещённый вывод print)
+    "RET",  # flake8-return (ошибки в логике return)
+    "SIM",  # flake8-simplify (упрощение кода)
+    "ARG",  # flake8-unused-arguments (неиспользуемые аргументы функций)
+    "PL",   # pylint совместимость
+]
+ignore = [
+    "D100",  # Missing docstring in public module
+    "D104",  # Missing docstring in public package
+    "D401",  # First line should be in imperative mood
+]
+
+# Максимальная допустимая сложность функции
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+# Порядок импортов
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+force-single-line = false
+
+# Игнорировать длинные строки только в определённых местах (если хочется)
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D"]  # В тестах игнорируем докстринги
+"__init__.py" = ["F401"]  # Разрешаем неиспользуемые импорты в __init__.py
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
