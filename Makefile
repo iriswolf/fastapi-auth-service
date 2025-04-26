@@ -27,7 +27,7 @@ clean:
 .PHONY: install
 install:
 	poetry install
-	pre-commit install
+	poetry run pre-commit install
 
 # =================================================================================================
 # Code Quality
@@ -35,18 +35,18 @@ install:
 
 .PHONY: lint
 lint:
-	black --check --diff $(code_dirs)
-	isort --check-only $(code_dirs)
-	ruff check $(code_dirs)
+	poetry run black --check --diff $(code_dirs)
+	poetry run isort --check-only $(code_dirs)
+	poetry run ruff check $(code_dirs)
 
 .PHONY: type-check
 type-check:
-	mypy $(package_dir)
+	poetry run mypy $(package_dir)
 
 .PHONY: format
 format:
-	black $(code_dirs)
-	isort $(code_dirs)
+	poetry run black $(code_dirs)
+	poetry run isort $(code_dirs)
 
 .PHONY: check
 check: lint type-check test
@@ -60,15 +60,15 @@ ci-check: check
 
 .PHONY: test
 test:
-	pytest $(tests_dir)
+	poetry run pytest $(tests_dir)
 
 .PHONY: test-coverage
 test-coverage:
-	pytest --cov=$(package_dir) --cov-report=html $(tests_dir)
+	poetry run pytest --cov=$(package_dir) --cov-report=html $(tests_dir)
 
 .PHONY: test-coverage-view
 test-coverage-view:
-	python -c "import webbrowser; webbrowser.open('file://$(shell pwd)/htmlcov/index.html')"
+	poetry run python -c "import webbrowser; webbrowser.open('file://$(shell pwd)/htmlcov/index.html')"
 
 # =================================================================================================
 # Dev
