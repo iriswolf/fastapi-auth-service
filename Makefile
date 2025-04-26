@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := lint
 
 # Папки проекта
+docker_name := auth_service
 package_dir := app
 tests_dir := tests
 scripts_dir := scripts
@@ -50,6 +51,9 @@ format:
 .PHONY: check
 check: lint type-check test
 
+.PHONY: ci-check
+ci-check: check
+
 # =================================================================================================
 # Tests
 # =================================================================================================
@@ -65,3 +69,27 @@ test-coverage:
 .PHONY: test-coverage-view
 test-coverage-view:
 	python -c "import webbrowser; webbrowser.open('file://$(shell pwd)/htmlcov/index.html')"
+
+# =================================================================================================
+# Dev
+# =================================================================================================
+
+.PHONY: dev
+dev:
+	poetry run uvicorn app.main:app --reload
+
+# =================================================================================================
+# Docker
+# =================================================================================================
+
+.PHONY: up
+up:
+	docker-compose -p $(project_name) up -d
+
+.PHONY: down
+down:
+	docker-compose -p $(project_name) down
+
+.PHONY: docker-clean
+docker-clean:
+	docker-compose -p $(project_name) down --volumes --remove-orphans
